@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Action, ActionFunc, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'types/actions';
-import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats} from 'types/users';
+import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'types/users';
 import {TeamMembership} from 'types/teams';
 import {Client4} from 'client';
 import {General} from '../constants';
@@ -776,6 +776,69 @@ export function setStatus(status: UserStatus): ActionFunc {
         });
 
         return {data: status};
+    };
+}
+
+export function setCustomStatus(customStatus: UserCustomStatus): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            await Client4.updateCustomStatus(customStatus);
+            data = await Client4.getMe();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: UserTypes.RECEIVED_ME,
+            data,
+        });
+        dispatch(loadRolesIfNeeded(data.roles.split(' ')));
+        return {data};
+    };
+}
+
+export function unsetCustomStatus(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            await Client4.unsetCustomStatus();
+            data = await Client4.getMe();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: UserTypes.RECEIVED_ME,
+            data,
+        });
+        dispatch(loadRolesIfNeeded(data.roles.split(' ')));
+        return {data};
+    };
+}
+
+export function removeRecentCustomStatus(customStatus: UserCustomStatus): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            await Client4.removeRecentCustomStatus(customStatus);
+            data = await Client4.getMe();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: UserTypes.RECEIVED_ME,
+            data,
+        });
+        dispatch(loadRolesIfNeeded(data.roles.split(' ')));
+        return {data};
     };
 }
 
