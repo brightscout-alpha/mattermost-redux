@@ -780,66 +780,27 @@ export function setStatus(status: UserStatus): ActionFunc {
 }
 
 export function setCustomStatus(customStatus: UserCustomStatus): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            await Client4.updateCustomStatus(customStatus);
-            data = await Client4.getMe();
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch({
-            type: UserTypes.RECEIVED_ME,
-            data,
-        });
-        dispatch(loadRolesIfNeeded(data.roles.split(' ')));
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.updateCustomStatus,
+        params: [
+            customStatus,
+        ],
+    });
 }
 
 export function unsetCustomStatus(): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            await Client4.unsetCustomStatus();
-            data = await Client4.getMe();
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch({
-            type: UserTypes.RECEIVED_ME,
-            data,
-        });
-        dispatch(loadRolesIfNeeded(data.roles.split(' ')));
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.unsetCustomStatus,
+    });
 }
 
 export function removeRecentCustomStatus(customStatus: UserCustomStatus): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            await Client4.removeRecentCustomStatus(customStatus);
-            data = await Client4.getMe();
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch({
-            type: UserTypes.RECEIVED_ME,
-            data,
-        });
-        dispatch(loadRolesIfNeeded(data.roles.split(' ')));
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.removeRecentCustomStatus,
+        params: [
+            customStatus,
+        ],
+    });
 }
 
 export function getSessions(userId: string): ActionFunc {
