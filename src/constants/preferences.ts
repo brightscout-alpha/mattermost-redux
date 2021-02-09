@@ -35,6 +35,7 @@ const Preferences = {
 
     CATEGORY_CUSTOM_STATUS: 'custom_status',
     NAME_CUSTOM_STATUS_TUTORIAL_STATE: 'custom_status_tutorial_state',
+    NAME_RECENT_CUSTOM_STATUSES: 'recent_custom_statuses',
     CUSTOM_STATUS_MODAL_VIEWED: 'custom_status_modal_viewed',
 
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
