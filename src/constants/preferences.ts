@@ -33,6 +33,10 @@ const Preferences = {
     MENTION_KEYS: 'mention_keys',
     USE_MILITARY_TIME: 'use_military_time',
 
+    CATEGORY_CUSTOM_STATUS: 'custom_status',
+    NAME_CUSTOM_STATUS_TUTORIAL_STATE: 'custom_status_tutorial_state',
+    CUSTOM_STATUS_MODAL_VIEWED: 'custom_status_modal_viewed',
+
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CHANNEL_SIDEBAR_ORGANIZATION: 'channel_sidebar_organization',
     CHANNEL_SIDEBAR_AUTOCLOSE_DMS: 'close_unused_direct_messages',
